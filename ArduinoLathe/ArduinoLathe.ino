@@ -1,9 +1,9 @@
-void setup() {
-  // put your setup code here, to run once:
+#include "latheheart.h"
 
+void setup() {
+  LatheHeart::begin();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-
+  LatheHeart::poll();
 }

@@ -16,7 +16,7 @@ Imports System.Reflection
 <Assembly: System.Reflection.AssemblyCompanyAttribute("AmerLatheGUI"),  _
  Assembly: System.Reflection.AssemblyConfigurationAttribute("Debug"),  _
  Assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0"),  _
- Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+238fe6e097a3855a4f681d25dc83b8f4a6c7be75"),  _
+ Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+02a56bee314375f9685591babe09f47c765ffc65"),  _
  Assembly: System.Reflection.AssemblyProductAttribute("AmerLatheGUI"),  _
  Assembly: System.Reflection.AssemblyTitleAttribute("AmerLatheGUI"),  _
  Assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0"),  _
