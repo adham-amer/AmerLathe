@@ -8,7 +8,7 @@ struct Packet
   byte TAIL; 
 };
 
-
+uint16_t x =0;
 
 Packet p1;
 void setup() {
@@ -22,8 +22,9 @@ void loop() {
   while (Serial.available()) {
     if (Serial.available() >= sizeof(Packet)) {
       Serial.readBytes(reinterpret_cast<char*>(&p1), sizeof(Packet));
-      Serial.write(reinterpret_cast<uint8_t*>(&p1.XSTEPS), sizeof(p1.XSTEPS));
+      x+=p1.XSTEPS;
+      Serial.write(reinterpret_cast<uint8_t*>(&x), sizeof(x));
     }
   }
-delay(1000);
+//delay(1000);
 }

@@ -96,7 +96,7 @@ Public Class Form1
         Else
             While SerialPort1.BytesToRead > 1
                 Dim xsteps As UShort = SerialPort1.ReadByte() Or (SerialPort1.ReadByte() << 8)
-                MsgBox(xsteps)
+                x.Text = xsteps * 5.0 / NumericUpDown1.Value
 
                 ' Dim responseBytes(PacketSize - 1) As Byte
                 ' SerialPort1.Read(responseBytes, 0, responseBytes.Length)
@@ -114,7 +114,17 @@ Public Class Form1
 
     Private Sub JOGXN_Click(sender As Object, e As EventArgs) Handles JOGXN.Click
         Dim P As Packet
-        P.XSTEPS = InputBox("Enter X steps (negative for left, positive for right):", "X Steps")
+
+
+        For Each ctrl As Object In GroupBox1.Controls
+            If TypeOf ctrl Is RadioButton Then
+                If ctrl.Checked Then
+                    P.XSTEPS = ctrl.Tag * NumericUpDown1.Value / 5
+                    MsgBox($"XSTEPS={P.XSTEPS}")
+                    Exit For
+                End If
+            End If
+        Next
         P.TAIL = &HFF
         Dim packetBytes = PacketToBytes(P)
         If Connected Then
