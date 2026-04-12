@@ -1,5 +1,21 @@
-﻿Imports System.IO.Ports
+Imports System.IO.Ports
+Imports System.Runtime.InteropServices
 Public Class Form1
+    Public Connected As Boolean = False
+    Public SerialPort1 As SerialPort
+    Private Shared ReadOnly PacketSize As Integer = Marshal.SizeOf(GetType(Packet))
+    <StructLayout(LayoutKind.Sequential, Pack:=1)>
+    Public Structure Packet
+        Public CMD As Byte
+        Public XSTEPS As UShort
+        Public ZSTEPS As UShort
+        Public SSPEED As UShort
+        Public FRATE As UShort
+        Public TAIL As Byte
+    End Structure
+
+
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         DrawGrid()
     End Sub
@@ -22,4 +38,89 @@ Public Class Form1
 
     End Sub
 
+    Private Function PacketToBytes(packet As Packet) As Byte()
+        Dim bytes(PacketSize - 1) As Byte
+        Dim ptr = Marshal.AllocHGlobal(PacketSize)
+
+        Try
+            Marshal.StructureToPtr(packet, ptr, False)
+            Marshal.Copy(ptr, bytes, 0, PacketSize)
+            Return bytes
+        Finally
+            Marshal.FreeHGlobal(ptr)
+        End Try
+    End Function
+
+    Private Function BytesToPacket(bytes As Byte()) As Packet
+        If bytes Is Nothing OrElse bytes.Length <> PacketSize Then
+            Throw New ArgumentException($"Packet must be exactly {PacketSize} bytes.", NameOf(bytes))
+        End If
+
+        Dim ptr = Marshal.AllocHGlobal(PacketSize)
+
+        Try
+            Marshal.Copy(bytes, 0, ptr, PacketSize)
+            Return DirectCast(Marshal.PtrToStructure(ptr, GetType(Packet)), Packet)
+        Finally
+            Marshal.FreeHGlobal(ptr)
+        End Try
+    End Function
+
+    Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles Panel2.Paint
+
+    End Sub
+
+    Private Sub Panel2_MouseHover(sender As Object, e As EventArgs) Handles Panel2.MouseHover
+        'MsgBox(e.X)
+    End Sub
+
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+
+        Dim T As String() = {"Connected", "Not Connected"}
+        Dim C As Color() = {Color.Green, Color.Red}
+        If Not Connected Then
+            Try
+                SerialPort1 = New SerialPort("COM3", 115200)
+                SerialPort1.Open()
+
+                Connected = True
+                Label2.Text = T(0) & " on " & SerialPort1.PortName
+                Label2.BackColor = C(0)
+            Catch ex As Exception
+                MsgBox(ex.Message)
+                Connected = False
+                Label2.Text = T(1)
+                Label2.BackColor = C(1)
+            End Try
+
+        Else
+            While SerialPort1.BytesToRead > 1
+                Dim xsteps As UShort = SerialPort1.ReadByte() Or (SerialPort1.ReadByte() << 8)
+                MsgBox(xsteps)
+
+                ' Dim responseBytes(PacketSize - 1) As Byte
+                ' SerialPort1.Read(responseBytes, 0, responseBytes.Length)
+
+                ' Dim response As Packet = BytesToPacket(responseBytes)
+                'MsgBox($"CMD={response.CMD}, X={response.XSTEPS}, Z={response.ZSTEPS}, S={response.SSPEED}, F={response.FRATE}, TAIL={response.TAIL}")
+                '// You can add code here to handle the response packet as needed
+
+            End While
+
+        End If
+
+
+    End Sub
+
+    Private Sub JOGXN_Click(sender As Object, e As EventArgs) Handles JOGXN.Click
+        Dim P As Packet
+        P.XSTEPS = InputBox("Enter X steps (negative for left, positive for right):", "X Steps")
+        P.TAIL = &HFF
+        Dim packetBytes = PacketToBytes(P)
+        If Connected Then
+            SerialPort1.Write(packetBytes, 0, packetBytes.Length)
+
+
+        End If
+    End Sub
 End Class

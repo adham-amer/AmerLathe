@@ -23,34 +23,35 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         components = New ComponentModel.Container()
-        Button1 = New Button()
+        JOGXP = New Button()
         TrackBar1 = New TrackBar()
-        Button2 = New Button()
-        Button3 = New Button()
-        Button4 = New Button()
+        JOGXN = New Button()
+        JOGZP = New Button()
+        JOGZN = New Button()
         Timer1 = New Timer(components)
         GroupBox1 = New GroupBox()
         Panel1 = New Panel()
         Label2 = New Label()
         Label1 = New Label()
         Panel2 = New Panel()
-        BackgroundWorker1 = New ComponentModel.BackgroundWorker()
+        PictureBox1 = New PictureBox()
         CType(TrackBar1, ComponentModel.ISupportInitialize).BeginInit()
         Panel1.SuspendLayout()
+        CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
-        ' Button1
+        ' JOGXP
         ' 
-        Button1.FlatStyle = FlatStyle.Flat
-        Button1.Font = New Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Button1.ForeColor = SystemColors.Info
-        Button1.Location = New Point(1467, 475)
-        Button1.Margin = New Padding(4, 3, 4, 3)
-        Button1.Name = "Button1"
-        Button1.Size = New Size(233, 121)
-        Button1.TabIndex = 0
-        Button1.Text = "X+"
-        Button1.UseVisualStyleBackColor = True
+        JOGXP.FlatStyle = FlatStyle.Flat
+        JOGXP.Font = New Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        JOGXP.ForeColor = SystemColors.Info
+        JOGXP.Location = New Point(1467, 475)
+        JOGXP.Margin = New Padding(4, 3, 4, 3)
+        JOGXP.Name = "JOGXP"
+        JOGXP.Size = New Size(233, 121)
+        JOGXP.TabIndex = 0
+        JOGXP.Text = "X+"
+        JOGXP.UseVisualStyleBackColor = True
         ' 
         ' TrackBar1
         ' 
@@ -61,44 +62,49 @@ Partial Class Form1
         TrackBar1.Size = New Size(56, 157)
         TrackBar1.TabIndex = 1
         ' 
-        ' Button2
+        ' JOGXN
         ' 
-        Button2.FlatStyle = FlatStyle.Flat
-        Button2.Font = New Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Button2.ForeColor = SystemColors.Info
-        Button2.Location = New Point(1209, 475)
-        Button2.Margin = New Padding(4, 3, 4, 3)
-        Button2.Name = "Button2"
-        Button2.Size = New Size(233, 121)
-        Button2.TabIndex = 0
-        Button2.Text = "X-"
-        Button2.UseVisualStyleBackColor = True
+        JOGXN.FlatStyle = FlatStyle.Flat
+        JOGXN.Font = New Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        JOGXN.ForeColor = SystemColors.Info
+        JOGXN.Location = New Point(1209, 475)
+        JOGXN.Margin = New Padding(4, 3, 4, 3)
+        JOGXN.Name = "JOGXN"
+        JOGXN.Size = New Size(233, 121)
+        JOGXN.TabIndex = 0
+        JOGXN.Text = "X-"
+        JOGXN.UseVisualStyleBackColor = True
         ' 
-        ' Button3
+        ' JOGZP
         ' 
-        Button3.FlatStyle = FlatStyle.Flat
-        Button3.Font = New Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Button3.ForeColor = SystemColors.Info
-        Button3.Location = New Point(1467, 624)
-        Button3.Margin = New Padding(4, 3, 4, 3)
-        Button3.Name = "Button3"
-        Button3.Size = New Size(233, 121)
-        Button3.TabIndex = 2
-        Button3.Text = "Z+"
-        Button3.UseVisualStyleBackColor = True
+        JOGZP.FlatStyle = FlatStyle.Flat
+        JOGZP.Font = New Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        JOGZP.ForeColor = SystemColors.Info
+        JOGZP.Location = New Point(1467, 624)
+        JOGZP.Margin = New Padding(4, 3, 4, 3)
+        JOGZP.Name = "JOGZP"
+        JOGZP.Size = New Size(233, 121)
+        JOGZP.TabIndex = 2
+        JOGZP.Text = "Z+"
+        JOGZP.UseVisualStyleBackColor = True
         ' 
-        ' Button4
+        ' JOGZN
         ' 
-        Button4.FlatStyle = FlatStyle.Flat
-        Button4.Font = New Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Button4.ForeColor = SystemColors.Info
-        Button4.Location = New Point(1209, 624)
-        Button4.Margin = New Padding(4, 3, 4, 3)
-        Button4.Name = "Button4"
-        Button4.Size = New Size(233, 121)
-        Button4.TabIndex = 3
-        Button4.Text = "Z-"
-        Button4.UseVisualStyleBackColor = True
+        JOGZN.FlatStyle = FlatStyle.Flat
+        JOGZN.Font = New Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        JOGZN.ForeColor = SystemColors.Info
+        JOGZN.Location = New Point(1209, 624)
+        JOGZN.Margin = New Padding(4, 3, 4, 3)
+        JOGZN.Name = "JOGZN"
+        JOGZN.Size = New Size(233, 121)
+        JOGZN.TabIndex = 3
+        JOGZN.Text = "Z-"
+        JOGZN.UseVisualStyleBackColor = True
+        ' 
+        ' Timer1
+        ' 
+        Timer1.Enabled = True
+        Timer1.Interval = 500
         ' 
         ' GroupBox1
         ' 
@@ -148,20 +154,30 @@ Partial Class Form1
         Panel2.Size = New Size(880, 361)
         Panel2.TabIndex = 6
         ' 
+        ' PictureBox1
+        ' 
+        PictureBox1.BackColor = Color.LightBlue
+        PictureBox1.Location = New Point(820, 424)
+        PictureBox1.Name = "PictureBox1"
+        PictureBox1.Size = New Size(57, 52)
+        PictureBox1.TabIndex = 7
+        PictureBox1.TabStop = False
+        ' 
         ' Form1
         ' 
         AutoScaleDimensions = New SizeF(11F, 24F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.MidnightBlue
         ClientSize = New Size(2597, 918)
+        Controls.Add(PictureBox1)
         Controls.Add(Panel2)
         Controls.Add(Panel1)
         Controls.Add(GroupBox1)
-        Controls.Add(Button4)
-        Controls.Add(Button3)
+        Controls.Add(JOGZN)
+        Controls.Add(JOGZP)
         Controls.Add(TrackBar1)
-        Controls.Add(Button2)
-        Controls.Add(Button1)
+        Controls.Add(JOGXN)
+        Controls.Add(JOGXP)
         Font = New Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Margin = New Padding(4, 3, 4, 3)
         Name = "Form1"
@@ -169,21 +185,22 @@ Partial Class Form1
         CType(TrackBar1, ComponentModel.ISupportInitialize).EndInit()
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
+        CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
     End Sub
 
-    Friend WithEvents Button1 As Button
+    Friend WithEvents JOGXP As Button
     Friend WithEvents TrackBar1 As TrackBar
-    Friend WithEvents Button2 As Button
-    Friend WithEvents Button3 As Button
-    Friend WithEvents Button4 As Button
+    Friend WithEvents JOGXN As Button
+    Friend WithEvents JOGZP As Button
+    Friend WithEvents JOGZN As Button
     Friend WithEvents Timer1 As Timer
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Label1 As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents Panel2 As Panel
-    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
+    Friend WithEvents PictureBox1 As PictureBox
 
 End Class
