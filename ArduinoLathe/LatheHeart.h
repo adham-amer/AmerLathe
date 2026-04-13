@@ -5,6 +5,6 @@
 #define ISR_FREQ 20000UL //20Khz
 
 // init
-void stepper_timer1_init_20khz(void);
+void startBeat(void);
 
 #endif
