@@ -19,14 +19,14 @@
 // ISR is defined in stepper_isr.cpp
 // just make sure it's compiled with this file
 
-void setup_timer1_20khz()
+void startBeat()
 {
     cli();
     TCCR1A = 0;
     TCCR1B = 0;
     TCCR1B |= (1 << WGM12);// CTC mode
     TCCR1B |= (1 << CS10); // prescaler = 1
-    OCR1A = 799;  //   16Mhz / 20Khz and we sub 1 because it counts from 0 = 799
+    OCR1A = (16000000 / ISR_FREQ) - 1;  //   16Mhz / 20Khz and we sub 1 because it counts from 0 = 799
     TIMSK1 |= (1 << OCIE1A);// enable compare interrupt
     sei();
 }
