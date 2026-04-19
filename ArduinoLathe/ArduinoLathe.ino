@@ -12,7 +12,7 @@ uint16_t x =0;
 
 Packet p1;
 void setup() {
-  // put your setup code here, to run once:
+  // put your setup code here, to run once
 Serial.begin(115200);
 
 }

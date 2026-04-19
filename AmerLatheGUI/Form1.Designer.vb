@@ -46,10 +46,10 @@ Partial Class Form1
         NumericUpDown1 = New NumericUpDown()
         Label3 = New Label()
         GroupBox2 = New GroupBox()
-        Label5 = New Label()
-        Label6 = New Label()
-        x = New Label()
         z = New Label()
+        x = New Label()
+        Label6 = New Label()
+        Label5 = New Label()
         CType(TrackBar1, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox1.SuspendLayout()
         Panel1.SuspendLayout()
@@ -78,6 +78,7 @@ Partial Class Form1
         TrackBar1.Dock = DockStyle.Left
         TrackBar1.Location = New Point(3, 28)
         TrackBar1.Margin = New Padding(4, 3, 4, 3)
+        TrackBar1.Maximum = 500
         TrackBar1.Name = "TrackBar1"
         TrackBar1.Orientation = Orientation.Vertical
         TrackBar1.Size = New Size(56, 320)
@@ -138,6 +139,7 @@ Partial Class Form1
         GroupBox1.Controls.Add(JOGZN)
         GroupBox1.Controls.Add(JOGZP)
         GroupBox1.Controls.Add(RadioButton1)
+        GroupBox1.FlatStyle = FlatStyle.Flat
         GroupBox1.ForeColor = Color.White
         GroupBox1.Location = New Point(1069, 322)
         GroupBox1.Name = "GroupBox1"
@@ -236,10 +238,10 @@ Partial Class Form1
         ' 
         ' PictureBox1
         ' 
-        PictureBox1.BackColor = Color.LightBlue
-        PictureBox1.Location = New Point(820, 424)
+        PictureBox1.BackColor = Color.FromArgb(CByte(232), CByte(185), CByte(102))
+        PictureBox1.Location = New Point(820, 322)
         PictureBox1.Name = "PictureBox1"
-        PictureBox1.Size = New Size(57, 52)
+        PictureBox1.Size = New Size(138, 305)
         PictureBox1.TabIndex = 7
         PictureBox1.TabStop = False
         ' 
@@ -268,10 +270,10 @@ Partial Class Form1
         TabPage2.Controls.Add(Label4)
         TabPage2.Controls.Add(NumericUpDown1)
         TabPage2.Controls.Add(Label3)
-        TabPage2.Location = New Point(4, 33)
+        TabPage2.Location = New Point(4, 29)
         TabPage2.Name = "TabPage2"
         TabPage2.Padding = New Padding(3)
-        TabPage2.Size = New Size(523, 233)
+        TabPage2.Size = New Size(523, 237)
         TabPage2.TabIndex = 1
         TabPage2.Text = "Machine Physics"
         TabPage2.UseVisualStyleBackColor = True
@@ -318,23 +320,14 @@ Partial Class Form1
         GroupBox2.TabStop = False
         GroupBox2.Text = "GroupBox2"
         ' 
-        ' Label5
+        ' z
         ' 
-        Label5.AutoSize = True
-        Label5.Location = New Point(56, 51)
-        Label5.Name = "Label5"
-        Label5.Size = New Size(27, 24)
-        Label5.TabIndex = 1
-        Label5.Text = "X:"
-        ' 
-        ' Label6
-        ' 
-        Label6.AutoSize = True
-        Label6.Location = New Point(56, 98)
-        Label6.Name = "Label6"
-        Label6.Size = New Size(27, 24)
-        Label6.TabIndex = 2
-        Label6.Text = "Z:"
+        z.AutoSize = True
+        z.Location = New Point(104, 98)
+        z.Name = "z"
+        z.Size = New Size(21, 24)
+        z.TabIndex = 4
+        z.Text = "0"
         ' 
         ' x
         ' 
@@ -345,20 +338,29 @@ Partial Class Form1
         x.TabIndex = 3
         x.Text = "0"
         ' 
-        ' z
+        ' Label6
         ' 
-        z.AutoSize = True
-        z.Location = New Point(104, 98)
-        z.Name = "z"
-        z.Size = New Size(21, 24)
-        z.TabIndex = 4
-        z.Text = "0"
+        Label6.AutoSize = True
+        Label6.Location = New Point(56, 98)
+        Label6.Name = "Label6"
+        Label6.Size = New Size(27, 24)
+        Label6.TabIndex = 2
+        Label6.Text = "Z:"
+        ' 
+        ' Label5
+        ' 
+        Label5.AutoSize = True
+        Label5.Location = New Point(56, 51)
+        Label5.Name = "Label5"
+        Label5.Size = New Size(27, 24)
+        Label5.TabIndex = 1
+        Label5.Text = "X:"
         ' 
         ' Form1
         ' 
         AutoScaleDimensions = New SizeF(11F, 24F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = Color.MidnightBlue
+        BackColor = Color.FromArgb(CByte(24), CByte(11), CByte(28))
         ClientSize = New Size(1862, 750)
         Controls.Add(GroupBox2)
         Controls.Add(TabControl1)
