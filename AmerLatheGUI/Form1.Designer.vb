@@ -126,7 +126,7 @@ Partial Class Form1
         ' Timer1
         ' 
         Timer1.Enabled = True
-        Timer1.Interval = 500
+        Timer1.Interval = 1000
         ' 
         ' GroupBox1
         ' 

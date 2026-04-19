@@ -1,21 +1,12 @@
 #include "LatheHeart.h"
 
-struct Packet
-{
-  byte CMD; 
-  uint16_t XSTEPS; // X Axis steps
-  uint16_t ZSTEPS; // Z Axis steps
-  uint16_t SSPEED; // Spindle speed
-  uint16_t FRATE; // Feed Rate
-  byte TAIL; 
-};
-
 uint16_t x =0;
 
-Packet p1;
+
 void setup() {
   // put your setup code here, to run once
-Serial.begin(115200);
+  Serial.begin(115200);
+  startBeat();
 
 }
 
@@ -23,9 +14,15 @@ void loop() {
   
   while (Serial.available()) {
     if (Serial.available() >= sizeof(Packet)) {
-      Serial.readBytes(reinterpret_cast<char*>(&p1), sizeof(Packet));
-      x+=p1.XSTEPS;
-      Serial.write(reinterpret_cast<uint8_t*>(&x), sizeof(x));
+      Serial.readBytes(reinterpret_cast<char*>(&Data), sizeof(Packet));
+      Serial.print("CMD: ");
+      Serial.println(Data.CMD);
+      Serial.print("DIR: ");
+      Serial.println(Data.DIR);
+      Serial.print("xsteps: ");
+      Serial.println(Data.XSTEPS);
+      //Serial.println(((Data.XSTEPS & 0xff) << 8 + Data.XSTEPS>>8) );
+      //Serial.write(reinterpret_cast<uint8_t*>(&x), sizeof(x));
     }
   }
 //delay(1000);

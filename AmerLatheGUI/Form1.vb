@@ -7,6 +7,7 @@ Public Class Form1
     <StructLayout(LayoutKind.Sequential, Pack:=1)>
     Public Structure Packet
         Public CMD As Byte
+        Public DIR As Byte
         Public XSTEPS As UShort
         Public ZSTEPS As UShort
         Public SSPEED As UShort
@@ -18,6 +19,7 @@ Public Class Form1
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         DrawGrid()
+
     End Sub
 
 
@@ -94,9 +96,12 @@ Public Class Form1
             End Try
 
         Else
-            While SerialPort1.BytesToRead > 1
-                Dim xsteps As UShort = SerialPort1.ReadByte() Or (SerialPort1.ReadByte() << 8)
-                x.Text = xsteps * 5.0 / NumericUpDown1.Value
+            Dim s As String = ""
+            While SerialPort1.BytesToRead >= 1
+
+                s = s & System.Text.Encoding.ASCII.GetChars({SerialPort1.ReadByte()})
+                'Dim xsteps As UShort = SerialPort1.ReadByte() Or (SerialPort1.ReadByte() << 8)
+                'x.Text = xsteps * 5.0 / NumericUpDown1.Value
 
                 ' Dim responseBytes(PacketSize - 1) As Byte
                 ' SerialPort1.Read(responseBytes, 0, responseBytes.Length)
@@ -106,16 +111,27 @@ Public Class Form1
                 '// You can add code here to handle the response packet as needed
 
             End While
+            If s.Length > 0 Then
+                MsgBox(s)
+
+            End If
 
         End If
-
 
     End Sub
 
     Private Sub JOGXN_Click(sender As Object, e As EventArgs) Handles JOGXN.Click
         Dim P As Packet
-
-
+        P.CMD = 12
+        P.DIR = 6
+        P.XSTEPS = 565
+        If Connected Then
+            Dim packetBytes = PacketToBytes(P)
+            SerialPort1.Write(packetBytes, 0, packetBytes.Length)
+        End If
+    End Sub
+    Sub tt()
+        Dim P As Packet
         For Each ctrl As Object In GroupBox1.Controls
             If TypeOf ctrl Is RadioButton Then
                 If ctrl.Checked Then
