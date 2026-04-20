@@ -22,26 +22,28 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        components = New ComponentModel.Container()
         JOGXP = New Button()
         TrackBar1 = New TrackBar()
         JOGXN = New Button()
         JOGZP = New Button()
         JOGZN = New Button()
-        Timer1 = New Timer(components)
         GroupBox1 = New GroupBox()
-        RadioButton4 = New RadioButton()
-        RadioButton3 = New RadioButton()
-        RadioButton2 = New RadioButton()
+        Panel3 = New Panel()
         RadioButton1 = New RadioButton()
+        RadioButton4 = New RadioButton()
+        RadioButton2 = New RadioButton()
+        RadioButton3 = New RadioButton()
         Panel1 = New Panel()
-        Label2 = New Label()
+        Status = New Label()
         Label1 = New Label()
         Panel2 = New Panel()
         PictureBox1 = New PictureBox()
         TabControl1 = New TabControl()
         TabPage1 = New TabPage()
         TabPage2 = New TabPage()
+        Label2 = New Label()
+        NumericUpDown3 = New NumericUpDown()
+        NumericUpDown2 = New NumericUpDown()
         Label4 = New Label()
         NumericUpDown1 = New NumericUpDown()
         Label3 = New Label()
@@ -52,10 +54,13 @@ Partial Class Form1
         Label5 = New Label()
         CType(TrackBar1, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox1.SuspendLayout()
+        Panel3.SuspendLayout()
         Panel1.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         TabControl1.SuspendLayout()
         TabPage2.SuspendLayout()
+        CType(NumericUpDown3, ComponentModel.ISupportInitialize).BeginInit()
+        CType(NumericUpDown2, ComponentModel.ISupportInitialize).BeginInit()
         CType(NumericUpDown1, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox2.SuspendLayout()
         SuspendLayout()
@@ -123,22 +128,14 @@ Partial Class Form1
         JOGZN.Text = "Z-"
         JOGZN.UseVisualStyleBackColor = True
         ' 
-        ' Timer1
-        ' 
-        Timer1.Enabled = True
-        Timer1.Interval = 1000
-        ' 
         ' GroupBox1
         ' 
-        GroupBox1.Controls.Add(RadioButton4)
+        GroupBox1.Controls.Add(Panel3)
         GroupBox1.Controls.Add(TrackBar1)
-        GroupBox1.Controls.Add(RadioButton3)
         GroupBox1.Controls.Add(JOGXP)
         GroupBox1.Controls.Add(JOGXN)
-        GroupBox1.Controls.Add(RadioButton2)
         GroupBox1.Controls.Add(JOGZN)
         GroupBox1.Controls.Add(JOGZP)
-        GroupBox1.Controls.Add(RadioButton1)
         GroupBox1.FlatStyle = FlatStyle.Flat
         GroupBox1.ForeColor = Color.White
         GroupBox1.Location = New Point(1069, 322)
@@ -148,47 +145,21 @@ Partial Class Form1
         GroupBox1.TabStop = False
         GroupBox1.Text = "Jogging"
         ' 
-        ' RadioButton4
+        ' Panel3
         ' 
-        RadioButton4.AutoSize = True
-        RadioButton4.Location = New Point(66, 136)
-        RadioButton4.Name = "RadioButton4"
-        RadioButton4.Size = New Size(97, 28)
-        RadioButton4.TabIndex = 7
-        RadioButton4.TabStop = True
-        RadioButton4.Tag = "0.01"
-        RadioButton4.Text = "0.01mm"
-        RadioButton4.UseVisualStyleBackColor = True
-        ' 
-        ' RadioButton3
-        ' 
-        RadioButton3.AutoSize = True
-        RadioButton3.Location = New Point(66, 102)
-        RadioButton3.Name = "RadioButton3"
-        RadioButton3.Size = New Size(87, 28)
-        RadioButton3.TabIndex = 6
-        RadioButton3.TabStop = True
-        RadioButton3.Tag = "0.1"
-        RadioButton3.Text = "0.1mm"
-        RadioButton3.UseVisualStyleBackColor = True
-        ' 
-        ' RadioButton2
-        ' 
-        RadioButton2.AutoSize = True
-        RadioButton2.Checked = True
-        RadioButton2.Location = New Point(66, 68)
-        RadioButton2.Name = "RadioButton2"
-        RadioButton2.Size = New Size(91, 28)
-        RadioButton2.TabIndex = 5
-        RadioButton2.TabStop = True
-        RadioButton2.Tag = "0.5"
-        RadioButton2.Text = "0.5mm"
-        RadioButton2.UseVisualStyleBackColor = True
+        Panel3.Controls.Add(RadioButton1)
+        Panel3.Controls.Add(RadioButton4)
+        Panel3.Controls.Add(RadioButton2)
+        Panel3.Controls.Add(RadioButton3)
+        Panel3.Location = New Point(66, 79)
+        Panel3.Name = "Panel3"
+        Panel3.Size = New Size(140, 125)
+        Panel3.TabIndex = 8
         ' 
         ' RadioButton1
         ' 
         RadioButton1.AutoSize = True
-        RadioButton1.Location = New Point(66, 34)
+        RadioButton1.Location = New Point(10, 12)
         RadioButton1.Name = "RadioButton1"
         RadioButton1.Size = New Size(72, 28)
         RadioButton1.TabIndex = 4
@@ -197,10 +168,47 @@ Partial Class Form1
         RadioButton1.Text = "1mm"
         RadioButton1.UseVisualStyleBackColor = True
         ' 
+        ' RadioButton4
+        ' 
+        RadioButton4.AutoSize = True
+        RadioButton4.Location = New Point(10, 82)
+        RadioButton4.Name = "RadioButton4"
+        RadioButton4.Size = New Size(97, 28)
+        RadioButton4.TabIndex = 7
+        RadioButton4.TabStop = True
+        RadioButton4.Tag = "0.01"
+        RadioButton4.Text = "0.01mm"
+        RadioButton4.UseVisualStyleBackColor = True
+        ' 
+        ' RadioButton2
+        ' 
+        RadioButton2.AutoSize = True
+        RadioButton2.Checked = True
+        RadioButton2.Location = New Point(10, 35)
+        RadioButton2.Name = "RadioButton2"
+        RadioButton2.Size = New Size(91, 28)
+        RadioButton2.TabIndex = 5
+        RadioButton2.TabStop = True
+        RadioButton2.Tag = "0.5"
+        RadioButton2.Text = "0.5mm"
+        RadioButton2.UseVisualStyleBackColor = True
+        ' 
+        ' RadioButton3
+        ' 
+        RadioButton3.AutoSize = True
+        RadioButton3.Location = New Point(10, 60)
+        RadioButton3.Name = "RadioButton3"
+        RadioButton3.Size = New Size(87, 28)
+        RadioButton3.TabIndex = 6
+        RadioButton3.TabStop = True
+        RadioButton3.Tag = "0.1"
+        RadioButton3.Text = "0.1mm"
+        RadioButton3.UseVisualStyleBackColor = True
+        ' 
         ' Panel1
         ' 
         Panel1.BackColor = Color.SlateGray
-        Panel1.Controls.Add(Label2)
+        Panel1.Controls.Add(Status)
         Panel1.Controls.Add(Label1)
         Panel1.Dock = DockStyle.Bottom
         Panel1.ForeColor = Color.Ivory
@@ -209,15 +217,15 @@ Partial Class Form1
         Panel1.Size = New Size(1862, 49)
         Panel1.TabIndex = 5
         ' 
-        ' Label2
+        ' Status
         ' 
-        Label2.AutoSize = True
-        Label2.BackColor = Color.LightCoral
-        Label2.Location = New Point(193, 16)
-        Label2.Name = "Label2"
-        Label2.Size = New Size(142, 24)
-        Label2.TabIndex = 1
-        Label2.Text = "Not Connected"
+        Status.AutoSize = True
+        Status.BackColor = Color.LightCoral
+        Status.Location = New Point(193, 16)
+        Status.Name = "Status"
+        Status.Size = New Size(142, 24)
+        Status.TabIndex = 1
+        Status.Text = "Not Connected"
         ' 
         ' Label1
         ' 
@@ -249,7 +257,7 @@ Partial Class Form1
         ' 
         TabControl1.Controls.Add(TabPage1)
         TabControl1.Controls.Add(TabPage2)
-        TabControl1.Location = New Point(1065, 12)
+        TabControl1.Location = New Point(651, 12)
         TabControl1.Name = "TabControl1"
         TabControl1.SelectedIndex = 0
         TabControl1.Size = New Size(531, 270)
@@ -267,6 +275,9 @@ Partial Class Form1
         ' 
         ' TabPage2
         ' 
+        TabPage2.Controls.Add(Label2)
+        TabPage2.Controls.Add(NumericUpDown3)
+        TabPage2.Controls.Add(NumericUpDown2)
         TabPage2.Controls.Add(Label4)
         TabPage2.Controls.Add(NumericUpDown1)
         TabPage2.Controls.Add(Label3)
@@ -278,18 +289,47 @@ Partial Class Form1
         TabPage2.Text = "Machine Physics"
         TabPage2.UseVisualStyleBackColor = True
         ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Location = New Point(17, 95)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(202, 24)
+        Label2.TabIndex = 5
+        Label2.Text = "Microstepping Factor"
+        ' 
+        ' NumericUpDown3
+        ' 
+        NumericUpDown3.Location = New Point(282, 93)
+        NumericUpDown3.Maximum = New Decimal(New Integer() {9999999, 0, 0, 0})
+        NumericUpDown3.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        NumericUpDown3.Name = "NumericUpDown3"
+        NumericUpDown3.Size = New Size(150, 32)
+        NumericUpDown3.TabIndex = 4
+        NumericUpDown3.Value = New Decimal(New Integer() {8, 0, 0, 0})
+        ' 
+        ' NumericUpDown2
+        ' 
+        NumericUpDown2.Location = New Point(282, 55)
+        NumericUpDown2.Maximum = New Decimal(New Integer() {9999999, 0, 0, 0})
+        NumericUpDown2.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        NumericUpDown2.Name = "NumericUpDown2"
+        NumericUpDown2.Size = New Size(150, 32)
+        NumericUpDown2.TabIndex = 3
+        NumericUpDown2.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        ' 
         ' Label4
         ' 
         Label4.AutoSize = True
         Label4.Location = New Point(17, 57)
         Label4.Name = "Label4"
-        Label4.Size = New Size(220, 24)
+        Label4.Size = New Size(259, 24)
         Label4.TabIndex = 2
-        Label4.Text = "Linear distance per rev"
+        Label4.Text = "Linear distance mm per rev"
         ' 
         ' NumericUpDown1
         ' 
-        NumericUpDown1.Location = New Point(166, 17)
+        NumericUpDown1.Location = New Point(282, 17)
         NumericUpDown1.Maximum = New Decimal(New Integer() {9999999, 0, 0, 0})
         NumericUpDown1.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         NumericUpDown1.Name = "NumericUpDown1"
@@ -302,9 +342,9 @@ Partial Class Form1
         Label3.AutoSize = True
         Label3.Location = New Point(17, 19)
         Label3.Name = "Label3"
-        Label3.Size = New Size(132, 24)
+        Label3.Size = New Size(191, 24)
         Label3.TabIndex = 0
-        Label3.Text = "Steps per rev"
+        Label3.Text = "Motor Steps per rev"
         ' 
         ' GroupBox2
         ' 
@@ -375,12 +415,16 @@ Partial Class Form1
         CType(TrackBar1, ComponentModel.ISupportInitialize).EndInit()
         GroupBox1.ResumeLayout(False)
         GroupBox1.PerformLayout()
+        Panel3.ResumeLayout(False)
+        Panel3.PerformLayout()
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         TabControl1.ResumeLayout(False)
         TabPage2.ResumeLayout(False)
         TabPage2.PerformLayout()
+        CType(NumericUpDown3, ComponentModel.ISupportInitialize).EndInit()
+        CType(NumericUpDown2, ComponentModel.ISupportInitialize).EndInit()
         CType(NumericUpDown1, ComponentModel.ISupportInitialize).EndInit()
         GroupBox2.ResumeLayout(False)
         GroupBox2.PerformLayout()
@@ -392,11 +436,10 @@ Partial Class Form1
     Friend WithEvents JOGXN As Button
     Friend WithEvents JOGZP As Button
     Friend WithEvents JOGZN As Button
-    Friend WithEvents Timer1 As Timer
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Label1 As Label
-    Friend WithEvents Label2 As Label
+    Friend WithEvents Status As Label
     Friend WithEvents Panel2 As Panel
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents RadioButton4 As RadioButton
@@ -414,5 +457,9 @@ Partial Class Form1
     Friend WithEvents x As Label
     Friend WithEvents Label6 As Label
     Friend WithEvents Label5 As Label
+    Friend WithEvents Panel3 As Panel
+    Friend WithEvents NumericUpDown2 As NumericUpDown
+    Friend WithEvents Label2 As Label
+    Friend WithEvents NumericUpDown3 As NumericUpDown
 
 End Class

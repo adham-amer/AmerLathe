@@ -1,23 +1,26 @@
 Imports System.IO.Ports
 Imports System.Runtime.InteropServices
 Public Class Form1
-    Public Connected As Boolean = False
-    Public SerialPort1 As SerialPort
-    Private Shared ReadOnly PacketSize As Integer = Marshal.SizeOf(GetType(Packet))
-    <StructLayout(LayoutKind.Sequential, Pack:=1)>
-    Public Structure Packet
-        Public CMD As Byte
-        Public DIR As Byte
-        Public XSTEPS As UShort
-        Public ZSTEPS As UShort
-        Public SSPEED As UShort
-        Public FRATE As UShort
-        Public TAIL As Byte
-    End Structure
+    Private WithEvents Arduino As Firmware = New Firmware()
 
-
+    Dim jogxsteps As UInt32
+    Dim jogzsteps As UInt32
+    Dim xmotorstepsperrev As UShort = 200
+    Dim zmotorstepsperrev As UShort = 200
+    Dim xaxislead As UShort = 5
+    Dim zaxislead As UShort = 5 'in mm
+    Dim xmicrostepping As UShort = 8
+    Dim zmicrostepping As UShort = 8
+    Dim xmaxsteps As UInt32 = 20000
+    Dim ymaxsteps As UInt32 = 20000
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+
+        ' Dim g As Integer = 1 - (&H1 << 1)
+        'MsgBox(g)
+
+        Arduino.Connect("COM3", 115200)
         DrawGrid()
 
     End Sub
@@ -40,113 +43,89 @@ Public Class Form1
 
     End Sub
 
-    Private Function PacketToBytes(packet As Packet) As Byte()
-        Dim bytes(PacketSize - 1) As Byte
-        Dim ptr = Marshal.AllocHGlobal(PacketSize)
 
-        Try
-            Marshal.StructureToPtr(packet, ptr, False)
-            Marshal.Copy(ptr, bytes, 0, PacketSize)
-            Return bytes
-        Finally
-            Marshal.FreeHGlobal(ptr)
-        End Try
-    End Function
-
-    Private Function BytesToPacket(bytes As Byte()) As Packet
-        If bytes Is Nothing OrElse bytes.Length <> PacketSize Then
-            Throw New ArgumentException($"Packet must be exactly {PacketSize} bytes.", NameOf(bytes))
-        End If
-
-        Dim ptr = Marshal.AllocHGlobal(PacketSize)
-
-        Try
-            Marshal.Copy(bytes, 0, ptr, PacketSize)
-            Return DirectCast(Marshal.PtrToStructure(ptr, GetType(Packet)), Packet)
-        Finally
-            Marshal.FreeHGlobal(ptr)
-        End Try
-    End Function
-
-    Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles Panel2.Paint
-
-    End Sub
 
     Private Sub Panel2_MouseHover(sender As Object, e As EventArgs) Handles Panel2.MouseHover
         'MsgBox(e.X)
     End Sub
 
-    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
 
-        Dim T As String() = {"Connected", "Not Connected"}
-        Dim C As Color() = {Color.Green, Color.Red}
-        If Not Connected Then
-            Try
-                SerialPort1 = New SerialPort("COM3", 115200)
-                SerialPort1.Open()
-
-                Connected = True
-                Label2.Text = T(0) & " on " & SerialPort1.PortName
-                Label2.BackColor = C(0)
-            Catch ex As Exception
-                MsgBox(ex.Message)
-                Connected = False
-                Label2.Text = T(1)
-                Label2.BackColor = C(1)
-            End Try
-
-        Else
-            Dim s As String = ""
-            While SerialPort1.BytesToRead >= 1
-
-                s = s & System.Text.Encoding.ASCII.GetChars({SerialPort1.ReadByte()})
-                'Dim xsteps As UShort = SerialPort1.ReadByte() Or (SerialPort1.ReadByte() << 8)
-                'x.Text = xsteps * 5.0 / NumericUpDown1.Value
-
-                ' Dim responseBytes(PacketSize - 1) As Byte
-                ' SerialPort1.Read(responseBytes, 0, responseBytes.Length)
-
-                ' Dim response As Packet = BytesToPacket(responseBytes)
-                'MsgBox($"CMD={response.CMD}, X={response.XSTEPS}, Z={response.ZSTEPS}, S={response.SSPEED}, F={response.FRATE}, TAIL={response.TAIL}")
-                '// You can add code here to handle the response packet as needed
-
-            End While
-            If s.Length > 0 Then
-                MsgBox(s)
-
-            End If
-
-        End If
-
-    End Sub
 
     Private Sub JOGXN_Click(sender As Object, e As EventArgs) Handles JOGXN.Click
-        Dim P As Packet
-        P.CMD = 12
-        P.DIR = 6
-        P.XSTEPS = 565
-        If Connected Then
-            Dim packetBytes = PacketToBytes(P)
-            SerialPort1.Write(packetBytes, 0, packetBytes.Length)
+
+        Arduino.MoveInSteps(jogxsteps, 0, 0, 0, 1000, 545)
+
+    End Sub
+
+
+    Sub UpdateUI(XPOS As UInt32, ZPOS As UInt32, SSPEED As UShort, SPOS As UShort, IOs As Byte) Handles Arduino.DataReceived
+        If InvokeRequired Then
+            BeginInvoke(New Action(Of UInt32, UInt32, UShort, UShort, Byte)(AddressOf UpdateUI), XPOS, ZPOS, SSPEED, SPOS, IOs)
+            Return
+        End If
+
+
+        x.Text = Math.Round(XPOS * NumericUpDown2.Value / (NumericUpDown1.Value * NumericUpDown3.Value), 2) & " mm"
+        z.Text = Math.Round(ZPOS * NumericUpDown2.Value / (NumericUpDown1.Value * NumericUpDown3.Value), 2) & " mm"
+
+    End Sub
+
+    Sub ConnectionStatusChanged(isConnected As Boolean) Handles Arduino.ConnectionStatusChanged
+        If InvokeRequired Then
+            BeginInvoke(New Action(Of Boolean)(AddressOf ConnectionStatusChanged), isConnected)
+            Return
+        End If
+        If isConnected Then
+            Status.Text = "Connected"
+            Status.BackColor = Color.Green
+        Else
+            Status.Text = "Disconnected"
+            Status.BackColor = Color.Red
         End If
     End Sub
-    Sub tt()
-        Dim P As Packet
-        For Each ctrl As Object In GroupBox1.Controls
-            If TypeOf ctrl Is RadioButton Then
-                If ctrl.Checked Then
-                    P.XSTEPS = ctrl.Tag * NumericUpDown1.Value / 5
-                    MsgBox($"XSTEPS={P.XSTEPS}")
-                    Exit For
-                End If
-            End If
-        Next
-        P.TAIL = &HFF
-        Dim packetBytes = PacketToBytes(P)
-        If Connected Then
-            SerialPort1.Write(packetBytes, 0, packetBytes.Length)
 
 
+
+
+    Sub changejogsteps(value As Integer)
+        jogxsteps = value * xaxislead / (xmotorstepsperrev * xmicrostepping)
+        jogzsteps = value * zaxislead / (zmotorstepsperrev * zmicrostepping)
+
+    End Sub
+    Private Sub RadioButton1_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton1.CheckedChanged
+        If sender.Checked Then
+            changejogsteps(sender.tag)
         End If
+    End Sub
+
+    Private Sub RadioButton2_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton2.CheckedChanged
+        If sender.Checked Then
+            changejogsteps(sender.tag)
+        End If
+
+    End Sub
+
+    Private Sub RadioButton3_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton3.CheckedChanged
+        If sender.Checked Then
+            changejogsteps(sender.tag)
+        End If
+    End Sub
+
+    Private Sub RadioButton4_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton4.CheckedChanged
+        If sender.Checked Then
+            changejogsteps(sender.tag)
+        End If
+    End Sub
+
+    Private Sub JOGXP_Click(sender As Object, e As EventArgs) Handles JOGXP.Click
+        Arduino.MoveInSteps(jogxsteps, 0, 1, 0, 1000, 545)
+    End Sub
+
+    Private Sub JOGZN_Click(sender As Object, e As EventArgs) Handles JOGZN.Click
+        Arduino.MoveInSteps(0, jogzsteps, 0, 0, 1000, 545)
+    End Sub
+
+    Private Sub JOGZP_Click(sender As Object, e As EventArgs) Handles JOGZP.Click
+        Arduino.MoveInSteps(0, jogzsteps, 0, 1, 1000, 545)
     End Sub
 End Class

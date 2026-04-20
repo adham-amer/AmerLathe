@@ -14,6 +14,7 @@
 #define TRIGGER_PIN Z_STEP
 
 Packet Data;
+PacketFromFirmware FirmwareData;
 
 
 
