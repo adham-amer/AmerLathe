@@ -23,8 +23,8 @@ void loop() {
       //Serial.println(Data.XSTEPS);
       //Serial.pSrintln(((Data.XSTEPS & 0xff) << 8 + Data.XSTEPS>>8) );
 
-      FirmwareData.XPOS = Data.XSTEPS;
-      FirmwareData.ZPOS = Data.ZSTEPS;
+      //FirmwareData.XPOS = Data.XSTEPS;
+      //FirmwareData.ZPOS = Data.ZSTEPS;
 
 
        // write back to the GUI to confirm receipt of the packet
@@ -32,8 +32,8 @@ void loop() {
   }
 
 
-  FirmwareData.XPOS += (1 - (((Data.DIR & 0x2) >> 1) << 1));
-  FirmwareData.ZPOS += (1 - (((Data.DIR & 0x8) >> 3) << 1));
+  //FirmwareData.XPOS += (1 - (((Data.DIR & 0x2) >> 1) << 1));
+  //FirmwareData.ZPOS += (1 - (((Data.DIR & 0x8) >> 3) << 1));
   Serial.write(reinterpret_cast<uint8_t*>(&FirmwareData), sizeof(PacketFromFirmware));
   delay(20);
 }
